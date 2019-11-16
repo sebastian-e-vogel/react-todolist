@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import ToDoList from './components/TodoList';
 import ToDoForm from './components/ToDoForm';
@@ -26,16 +25,14 @@ class App extends Component
   constructor()
   {
     super();
-    this.state = 
-    {
+    this.state = {
       todos: []
     }
     this.handleAddToDo = this.handleAddToDo.bind(this);
   }
-  handleAddToDo(todo) 
-  {
+
+  handleAddToDo(todo) {
     this.setState({todos: [... this.state.todos, todo]} )
-  
   }
    
   render(){
