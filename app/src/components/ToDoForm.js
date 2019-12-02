@@ -28,6 +28,7 @@ handleSubmit(e){
     e.preventDefault();
     this.props.onAddToDo(this.state.text);
     this.setState({text: "" })
+    
     }
 
     
@@ -55,8 +56,7 @@ render() {
               onClick={this.handleSubmit}
             >Nueva tarea</Button>                
         </form>
-        <br></br>
-        <h3>Tareas pendientes:</h3>
+
       </div>
     );
   }

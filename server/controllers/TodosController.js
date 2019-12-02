@@ -6,19 +6,21 @@
 router.post('/todos', function (req, res) {
  
     db.Todo.create({ description: req.body.description}).then(todo => {
-      console.log("Todo auto-generated ID:", todo.id);
-    })
-    res.send(req.body.description)
+     res.send(todo)
+     console.log("Todo auto-generated ID:", todo.id);
+     })
+
 });
 
 
 
 router.put('/todos/:id', function (req, res) {
 
-  db.Todo.findByPk(req.params.id).then(function(todos){
-    todos.update({ description: req.body.description })
-    res.send(todos)
-  })//
+  db.Todo.findByPk(req.params.id).then(function(todo){
+   return todo.update({ description: req.body.description })    
+  }).then(todo =>{
+    res.send(todo)
+  })
   
   });
 

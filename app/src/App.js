@@ -19,21 +19,41 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-class App extends Component
-{
+class App extends Component {
   
-  constructor()
-  {
+  constructor() {
     super();
     this.state = {
-      todos: []
+      todos: [] 
     }
     this.handleAddToDo = this.handleAddToDo.bind(this);
   }
+  
+  componentDidMount() {
+    fetch('http://localhost:5000/todos')
+      .then((response) => {
+        return response.json()
+        })
+      .then((todos) => {
+        this.setState({todos: [...this.state.todos, ...todos]})
+      })
+  }
 
   handleAddToDo(todo) {
-    this.setState({todos: [... this.state.todos, todo]} )
-  }
+           
+   fetch('http://localhost:5000/todos', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({description: todo})
+     }).then((response) => {
+       
+      return response.json()
+      })
+    .then((todo) => {
+      this.setState({todos: [...this.state.todos, todo]})
+    })
+    
+    }
    
   render(){
   const classes = useStyles;
@@ -57,6 +77,7 @@ class App extends Component
     </div>
   );
   }
+
 }
 
 export default App;
