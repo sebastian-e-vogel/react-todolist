@@ -24,9 +24,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      todos: [] 
+      todos: [{
+        id: 1,
+        description: 'todo',
+      }] 
     }
     this.handleAddToDo = this.handleAddToDo.bind(this);
+    this.handleDeleteToDo = this.handleDeleteToDo.bind(this)
+    this.handleEditToDo= this.handleEditToDo.bind(this)
   }
   
   componentDidMount() {
@@ -40,20 +45,33 @@ class App extends Component {
   }
 
   handleAddToDo(todo) {
-           
-   fetch('http://localhost:5000/todos', {
+      fetch('http://localhost:5000/todos', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({description: todo})
      }).then((response) => {
-       
-      return response.json()
+       return response.json()
       })
     .then((todo) => {
-      this.setState({todos: [...this.state.todos, todo]})
-    })
-    
-    }
+      this.setState({todos: [...this.state.todos, todo]})      
+    })    
+  }
+
+  handleEditToDo(todoID){
+    // fetch('http://localhost:5000/todos/' + todoID, {
+    //   method: 'PUT',
+    //   headers: {'Content-Type':'application/json'},
+    //   body: JSON.stringify({description: 'algo que contenga lo editado' })
+    //  })
+
+  }
+
+  handleDeleteToDo(todoId){
+    let newlistToDo = this.state.todos.filter(todo => todo.id !== todoId)
+    this.setState({todos: newlistToDo})
+  }
+
+  
    
   render(){
   const classes = useStyles;
@@ -71,7 +89,11 @@ class App extends Component {
          </div>
             
       <ToDoForm onAddToDo={this.handleAddToDo}/>  
-      <ToDoList tareas={this.state.todos}/>
+      <ToDoList 
+      tareas={this.state.todos}
+      delete={this.handleDeleteToDo}
+      edit={this.handleEditToDo}
+      />
 
          
     </div>

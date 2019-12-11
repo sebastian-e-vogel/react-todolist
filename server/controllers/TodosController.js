@@ -38,11 +38,11 @@ router.put('/todos/:id', function (req, res) {
     });
   });
 
-  router.delete('/todos', function (req, res) {
+  router.delete('/todos/:id', function (req, res) {
 
     db.Todo.destroy({
         where: {
-          description: req.body.description
+          id: req.params.id
         }
       }).then(() => {
         res.send(200);
