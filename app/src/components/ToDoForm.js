@@ -21,13 +21,23 @@ class ToDoForm extends Component{
 
 handleInput(e){
    this.setState({ text: e.target.value })
-    
 }
 
 handleSubmit(e){
     e.preventDefault();
-    this.props.onAddToDo(this.state.text);
-    this.setState({text: "" })
+
+    fetch('http://localhost:5000/todos', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({description: this.state.text})
+     }).then((response) => {
+       return response.json()
+      })
+    .then((todo) => {
+      this.props.onAddToDo(todo);      
+    })    
+
+   this.setState({text: "" })
     
     }
 
