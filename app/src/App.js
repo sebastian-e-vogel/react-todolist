@@ -24,10 +24,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      todos: [{
-        id: 1,
-        description: 'todo',
-      }] 
+      todos: [] 
     }
     this.handleAddToDo = this.handleAddToDo.bind(this);
     this.handleDeleteToDo = this.handleDeleteToDo.bind(this)
@@ -45,25 +42,15 @@ class App extends Component {
   }
 
   handleAddToDo(todo) {
-      fetch('http://localhost:5000/todos', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({description: todo})
-     }).then((response) => {
-       return response.json()
-      })
-    .then((todo) => {
-      this.setState({todos: [...this.state.todos, todo]})      
-    })    
+    this.setState({todos: [...this.state.todos, todo]})
   }
 
-  handleEditToDo(todoID){
-    // fetch('http://localhost:5000/todos/' + todoID, {
-    //   method: 'PUT',
-    //   headers: {'Content-Type':'application/json'},
-    //   body: JSON.stringify({description: 'algo que contenga lo editado' })
-    //  })
-
+  handleEditToDo(todoID, todoDescription){
+    this.setState(prevState => ({
+      todos: prevState.todos.map(
+        el => el.id === todoID? { ...el, description: todoDescription }: el
+      )
+    }))
   }
 
   handleDeleteToDo(todoId){
